@@ -30,8 +30,8 @@ exports.handler = async (event, _context) => {
     })
 
     const authResult = oauth.createToken(authorizationToken)
-
-    const token = authResult.token.access_token
+    console.log(authResult)
+    const token = authResult.token.token.access_token
 
     const user = await getUser(token)
 
