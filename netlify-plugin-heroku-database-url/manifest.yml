@@ -1,0 +1,11 @@
+name: netlify-plugin-heroku-database-url
+inputs:
+  - name: app_name
+    description: Name of Heroku application
+    required: true
+  - name: heroku_config
+    description: Config setting key that stores the connection url to the database to use
+    default: DATABASE_URL
+  - name: netlify_env
+    description: Env key to use when setting connection in Netlify
+    default: DATABASE_URL

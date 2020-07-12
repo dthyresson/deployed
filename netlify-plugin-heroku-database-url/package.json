@@ -1,0 +1,28 @@
+{
+  "name": "netlify-plugin-heroku-database-url",
+  "version": "0.1.0",
+  "description": "A Netlify Build Plugin to set the necessary DATABASE_URL env to the current value in Heroku config.",
+  "keywords": [
+    "netlify",
+    "netlify-plugin",
+    "heroku",
+    "postgres",
+    "env"
+  ],
+  "main": "src/index.js",
+  "repository": "git@github.com:dthyresson/netlify-plugin-heroku-database-url.git",
+  "bugs": {
+    "url": "https://github.com/dthyresson/netlify-plugin-heroku-database-url/issues"
+  },
+  "author": "A. David Thyresson <david@stattleship.com>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "dotenv": "^8.2.0",
+    "got": "^11.5.0"
+  },
+  "devDependencies": {
+    "prettier": "2.0.5"
+  }
+}
