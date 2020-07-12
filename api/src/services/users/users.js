@@ -1,4 +1,8 @@
+import * as dotenv from 'dotenv'
+
 import { db } from 'src/lib/db'
+
+dotenv.config()
 
 export const users = () => {
   return db.user.findMany()
