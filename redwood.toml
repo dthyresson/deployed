@@ -10,7 +10,7 @@
 [web]
   port = 8910
   apiProxyPath = "/.netlify/functions"
-  includeEnvironmentVariables = []
+  includeEnvironmentVariables = ['DATABASE_URL','BINARY_TARGET']
 [api]
   port = 8911
   includeEnvironmentVariables = ['DATABASE_URL','BINARY_TARGET','HEROKU_API_TOKEN']
