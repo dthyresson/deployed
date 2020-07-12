@@ -13,6 +13,6 @@
   includeEnvironmentVariables = []
 [api]
   port = 8911
-  includeEnvironmentVariables = ['DATABASE_URL','BINARY_TARGET','HEROKU_API_TOKEN']
+  includeEnvironmentVariables = ['DATABASE_URL','BINARY_TARGET','HEROKU_API_TOKEN', 'NETLIFY_OAUTH_CLIENT_ID', 'NETLIFY_OAUTH_CLIENT_SECRET']
 [browser]
   open = true
