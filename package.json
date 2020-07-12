@@ -3,7 +3,9 @@
   "workspaces": {
     "packages": [
       "api",
-      "web"
+      "web",
+      "netlify-plugin-redwoodjs-env-validator",
+      "netlify-plugin-heroku-database-url"
     ]
   },
   "devDependencies": {

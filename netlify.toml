@@ -12,6 +12,14 @@
   status = 200
 
 [[plugins]]
+package = './netlify-plugin-heroku-database-url'
+  [plugins.inputs]
+  app_name = "netlify-deployed"
+
+[[plugins]]
+package = './netlify-plugin-redwoodjs-env-validator'
+
+[[plugins]]
 package = 'netlify-plugin-prisma-provider'
   [plugins.inputs]
   path = 'api/prisma/schema.prisma'
