@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@redwoodjs/api": "^0.13.0",
+    "netlify": "^4.3.5",
     "node-fetch": "^2.6.0",
     "simple-oauth2": "^4.1.0"
   }
