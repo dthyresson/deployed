@@ -1,1 +1,5 @@
 name: netlify-plugin-deployed
+inputs:
+  - name: url
+    description: Send deployed stats to this url
+    required: true

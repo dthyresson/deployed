@@ -42,16 +42,18 @@ const netlifyEnvs = {
 }
 
 module.exports = {
-  onPreBuild: async () => {
-    const { body } = await got.post(
-      'http://localhost:8910/.netlify/functions/deploy',
-      {
-        json: {
-          payload: netlifyEnvs,
-        },
-        responseType: 'json',
-      }
-    )
+  onPreBuild: async ({ inputs }) => {
+    const baseUrl = inputs.url
+    const deployEndpoint = `${baseUrl}/.netlify/functions/deploy`
+
+    console.log(deployEndpoint)
+
+    const { body } = await got.post(deployEndpoint, {
+      json: {
+        payload: netlifyEnvs,
+      },
+      responseType: 'json',
+    })
 
     console.log(body.data)
   },

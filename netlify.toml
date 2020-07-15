@@ -26,3 +26,5 @@ package = 'netlify-plugin-prisma-provider'
 
 [[plugins]]
 package = 'netlify-plugin-deployed'
+  [plugins.inputs]
+  url = 'https://deployed.netlify.app'
