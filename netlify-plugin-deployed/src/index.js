@@ -47,14 +47,15 @@ module.exports = {
     const deployEndpoint = `${baseUrl}/.netlify/functions/deploy`
 
     console.log(deployEndpoint)
+    console.log(netlifyEnvs)
 
-    const { body } = await got.post(deployEndpoint, {
-      json: {
-        payload: netlifyEnvs,
-      },
-      responseType: 'json',
-    })
+    // const { body } = await got.post(deployEndpoint, {
+    //   json: {
+    //     payload: netlifyEnvs,
+    //   },
+    //   responseType: 'json',
+    // })
 
-    console.log(body.data)
+    // console.log(body.data)
   },
 }
