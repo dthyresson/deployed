@@ -1,11 +1,11 @@
 import { render } from '@redwoodjs/testing'
 
-import NetlifyUser from './NetlifyUser'
+import User from './User'
 
-describe('NetlifyUser', () => {
+describe('User', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<NetlifyUser />)
+      render(<User />)
     }).not.toThrow()
   })
 })

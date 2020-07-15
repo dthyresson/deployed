@@ -6,9 +6,11 @@
     "defaults"
   ],
   "dependencies": {
+    "@auth0/auth0-spa-js": "^1.10.0",
     "@chakra-ui/core": "^0.8.0",
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
+    "@redwoodjs/auth": "^0.13.0",
     "@redwoodjs/router": "^0.13.0",
     "@redwoodjs/web": "^0.13.0",
     "emotion-theming": "^10.0.27",

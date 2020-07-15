@@ -5,15 +5,15 @@ export const schema = gql`
     id: String!
     createdAt: DateTime!
     updatedAt: DateTime!
-    publishedAt: DateTime!
-    siteId: String!
-    userId: String!
+    publishedAt: DateTime
     name: String!
     title: String!
     url: String!
     locked: Boolean!
     site: Site!
-    user: User!
+    siteId: String!
+    User: User!
+    userId: Int!
   }
 
   type Query {
@@ -22,23 +22,23 @@ export const schema = gql`
 
   input CreateDeployInput {
     updatedAt: DateTime!
-    publishedAt: DateTime!
-    siteId: String!
-    userId: String!
+    publishedAt: DateTime
     name: String!
     title: String!
     url: String!
     locked: Boolean!
+    siteId: String!
+    userId: Int!
   }
 
   input UpdateDeployInput {
     updatedAt: DateTime
     publishedAt: DateTime
-    siteId: String
-    userId: String
     name: String
     title: String
     url: String
     locked: Boolean
+    siteId: String
+    userId: Int
   }
 `

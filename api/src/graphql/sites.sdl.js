@@ -9,9 +9,9 @@ export const schema = gql`
     accountName: String!
     accountSlug: String!
     url: String!
-    screenshotUrl: String!
+    screenshotUrl: String
     user: User!
-    userId: String!
+    userId: Int!
     deploys: [Deploy]!
   }
 
@@ -25,8 +25,8 @@ export const schema = gql`
     accountName: String!
     accountSlug: String!
     url: String!
-    screenshotUrl: String!
-    userId: String!
+    screenshotUrl: String
+    userId: Int!
   }
 
   input UpdateSiteInput {
@@ -36,6 +36,6 @@ export const schema = gql`
     accountSlug: String
     url: String
     screenshotUrl: String
-    userId: String
+    userId: Int
   }
 `

@@ -10,10 +10,10 @@ import { getCurrentUser } from 'src/lib/auth.js'
 import { db } from 'src/lib/db'
 
 export const handler = createGraphQLHandler({
+  getCurrentUser,
   schema: makeMergedSchema({
     schemas,
     services: makeServices({ services }),
   }),
-  getCurrentUser,
   db,
 })

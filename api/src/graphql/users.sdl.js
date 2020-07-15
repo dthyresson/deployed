@@ -2,12 +2,18 @@ import gql from 'graphql-tag'
 
 export const schema = gql`
   type User {
-    uid: String!
+    id: Int!
     createdAt: DateTime!
     updatedAt: DateTime!
-    fullName: String!
-    avatarUrl: String!
     email: String!
+    emailVerified: Boolean
+    lastIp: String
+    lastLogin: DateTime!
+    loginsCount: Int!
+    name: String!
+    nickname: String!
+    picture: String!
+    userId: String!
     site: [Site]!
     deploy: [Deploy]!
   }
@@ -17,18 +23,28 @@ export const schema = gql`
   }
 
   input CreateUserInput {
-    uid: String!
     updatedAt: DateTime!
-    fullName: String!
-    avatarUrl: String!
     email: String!
+    emailVerified: Boolean
+    lastIp: String
+    lastLogin: DateTime!
+    loginsCount: Int!
+    name: String!
+    nickname: String!
+    picture: String!
+    userId: String!
   }
 
   input UpdateUserInput {
-    uid: String
     updatedAt: DateTime
-    fullName: String
-    avatarUrl: String
     email: String
+    emailVerified: Boolean
+    lastIp: String
+    lastLogin: DateTime
+    loginsCount: Int
+    name: String
+    nickname: String
+    picture: String
+    userId: String
   }
 `

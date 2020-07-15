@@ -12,7 +12,7 @@
         "source": "DS"
       },
       "argument": "provider",
-      "value": "\"sqlite\""
+      "value": "\"postgresql\""
     },
     {
       "tag": "CreateArgument",
@@ -30,8 +30,8 @@
     {
       "tag": "CreateField",
       "model": "User",
-      "field": "uid",
-      "type": "String",
+      "field": "id",
+      "type": "Int",
       "arity": "Required"
     },
     {
@@ -40,10 +40,35 @@
         "path": {
           "tag": "Field",
           "model": "User",
-          "field": "uid"
+          "field": "id"
         },
         "directive": "id"
       }
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "id"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "id"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "autoincrement()"
     },
     {
       "tag": "CreateField",
@@ -92,6 +117,56 @@
           "model": "User",
           "field": "updatedAt"
         },
+        "directive": "updatedAt"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "email",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "email"
+        },
+        "directive": "unique"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "emailVerified",
+      "type": "Boolean",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "lastIp",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "lastLogin",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "lastLogin"
+        },
         "directive": "default"
       }
     },
@@ -102,7 +177,7 @@
         "path": {
           "tag": "Field",
           "model": "User",
-          "field": "updatedAt"
+          "field": "lastLogin"
         },
         "directive": "default"
       },
@@ -112,23 +187,73 @@
     {
       "tag": "CreateField",
       "model": "User",
-      "field": "fullName",
+      "field": "loginsCount",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "loginsCount"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "loginsCount"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "0"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "name",
       "type": "String",
       "arity": "Required"
     },
     {
       "tag": "CreateField",
       "model": "User",
-      "field": "avatarUrl",
+      "field": "nickname",
       "type": "String",
       "arity": "Required"
     },
     {
       "tag": "CreateField",
       "model": "User",
-      "field": "email",
+      "field": "picture",
       "type": "String",
       "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "userId",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "userId"
+        },
+        "directive": "unique"
+      }
     },
     {
       "tag": "CreateField",
@@ -213,7 +338,7 @@
       "model": "Site",
       "field": "screenshotUrl",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
@@ -259,13 +384,13 @@
         "directive": "relation"
       },
       "argument": "references",
-      "value": "[uid]"
+      "value": "[id]"
     },
     {
       "tag": "CreateField",
       "model": "Site",
       "field": "userId",
-      "type": "String",
+      "type": "Int",
       "arity": "Required"
     },
     {
@@ -316,21 +441,7 @@
       "model": "Deploy",
       "field": "publishedAt",
       "type": "DateTime",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateField",
-      "model": "Deploy",
-      "field": "siteId",
-      "type": "String",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateField",
-      "model": "Deploy",
-      "field": "userId",
-      "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
@@ -409,7 +520,14 @@
     {
       "tag": "CreateField",
       "model": "Deploy",
-      "field": "user",
+      "field": "siteId",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Deploy",
+      "field": "User",
       "type": "User",
       "arity": "Required"
     },
@@ -419,7 +537,7 @@
         "path": {
           "tag": "Field",
           "model": "Deploy",
-          "field": "user"
+          "field": "User"
         },
         "directive": "relation"
       }
@@ -431,7 +549,7 @@
         "path": {
           "tag": "Field",
           "model": "Deploy",
-          "field": "user"
+          "field": "User"
         },
         "directive": "relation"
       },
@@ -445,12 +563,19 @@
         "path": {
           "tag": "Field",
           "model": "Deploy",
-          "field": "user"
+          "field": "User"
         },
         "directive": "relation"
       },
       "argument": "references",
-      "value": "[uid]"
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Deploy",
+      "field": "userId",
+      "type": "Int",
+      "arity": "Required"
     }
   ]
 }
