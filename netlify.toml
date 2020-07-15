@@ -23,3 +23,6 @@ package = 'netlify-plugin-redwoodjs-env-validator'
 package = 'netlify-plugin-prisma-provider'
   [plugins.inputs]
   path = 'api/prisma/schema.prisma'
+
+[[plugins]]
+package = 'netlify-plugin-deployed'
