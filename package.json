@@ -5,8 +5,7 @@
       "api",
       "web",
       "netlify-plugin-redwoodjs-env-validator",
-      "netlify-plugin-heroku-database-url",
-      "netlify-plugin-deployed"
+      "netlify-plugin-heroku-database-url"
     ]
   },
   "devDependencies": {

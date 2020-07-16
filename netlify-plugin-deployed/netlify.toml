@@ -1,6 +1,0 @@
-[build]
-  command = ""
-
-[[plugins]]
-package = "./src"
-
