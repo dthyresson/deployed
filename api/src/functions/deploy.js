@@ -68,6 +68,9 @@ export const handler = async (event, _context) => {
       })
 
       const data = jwt.verify(body.payload, secret).data
+      const siteName = data.siteName
+
+      delete data.siteName
       delete data.siteId
 
       const deploy = await db.deploy.upsert({
@@ -81,6 +84,8 @@ export const handler = async (event, _context) => {
           site: { connect: { id: site.id } },
         },
       })
+
+      await db.site.update({ where: { id: site.id }, data: { name: siteName } })
 
       return {
         statusCode: 200,
