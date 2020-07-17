@@ -14,8 +14,9 @@ export const schema = gql`
     nickname: String!
     picture: String!
     userId: String!
-    site: [Site]!
-    deploy: [Deploy]!
+    accessTokens: [AccessToken]!
+    sites: [Site]!
+    deploys: [Deploy]!
   }
 
   type Query {

@@ -8,4 +8,6 @@ export const Site = {
   user: (_obj, { root }) => db.site.findOne({ where: { id: root.id } }).user(),
   deploys: (_obj, { root }) =>
     db.site.findOne({ where: { id: root.id } }).deploys(),
+  siteTokens: (_obj, { root }) =>
+    db.site.findOne({ where: { id: root.id } }).siteTokens(),
 }

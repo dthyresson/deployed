@@ -1,33 +1,34 @@
 import gql from 'graphql-tag'
 
 export const schema = gql`
-  type Site {
+  type AccessToken {
     id: String!
     createdAt: DateTime!
     updatedAt: DateTime!
     name: String!
-    url: String
-    user: User!
+    secret: String!
+    revokedAt: DateTime
+    User: User!
     userId: Int!
-    deploys: [Deploy]!
-    siteTokens: [SiteToken]!
   }
 
   type Query {
-    sites: [Site!]!
+    accessTokens: [AccessToken!]!
   }
 
-  input CreateSiteInput {
+  input CreateAccessTokenInput {
     updatedAt: DateTime!
     name: String!
-    url: String
+    secret: String!
+    revokedAt: DateTime
     userId: Int!
   }
 
-  input UpdateSiteInput {
+  input UpdateAccessTokenInput {
     updatedAt: DateTime
     name: String
-    url: String
+    secret: String
+    revokedAt: DateTime
     userId: Int
   }
 `

@@ -5,11 +5,30 @@ export const schema = gql`
     id: String!
     createdAt: DateTime!
     updatedAt: DateTime!
-    publishedAt: DateTime
-    name: String!
-    title: String!
-    url: String!
-    locked: Boolean!
+    nodeVersion: String
+    yarnVersion: String
+    rubyVersion: String
+    goVersion: String
+    ci: Boolean
+    netlify: Boolean
+    buildId: String
+    context: String
+    repositoryUrl: String
+    branch: String
+    head: String
+    commitRef: String
+    cachedCommitRef: String
+    pullRequest: Boolean
+    deployUrl: String
+    deployPrimeUrl: String
+    netlifyImagesCdnDomain: String
+    status: String
+    errorName: String
+    errorMessage: String
+    buildStartedAt: DateTime
+    buildEndedAt: DateTime
+    errorAt: DateTime
+    successAt: DateTime
     site: Site!
     siteId: String!
     User: User!
@@ -22,22 +41,60 @@ export const schema = gql`
 
   input CreateDeployInput {
     updatedAt: DateTime!
-    publishedAt: DateTime
-    name: String!
-    title: String!
-    url: String!
-    locked: Boolean!
+    nodeVersion: String
+    yarnVersion: String
+    rubyVersion: String
+    goVersion: String
+    ci: Boolean
+    netlify: Boolean
+    buildId: String
+    context: String
+    repositoryUrl: String
+    branch: String
+    head: String
+    commitRef: String
+    cachedCommitRef: String
+    pullRequest: Boolean
+    deployUrl: String
+    deployPrimeUrl: String
+    netlifyImagesCdnDomain: String
+    status: String
+    errorName: String
+    errorMessage: String
+    buildStartedAt: DateTime
+    buildEndedAt: DateTime
+    errorAt: DateTime
+    successAt: DateTime
     siteId: String!
     userId: Int!
   }
 
   input UpdateDeployInput {
     updatedAt: DateTime
-    publishedAt: DateTime
-    name: String
-    title: String
-    url: String
-    locked: Boolean
+    nodeVersion: String
+    yarnVersion: String
+    rubyVersion: String
+    goVersion: String
+    ci: Boolean
+    netlify: Boolean
+    buildId: String
+    context: String
+    repositoryUrl: String
+    branch: String
+    head: String
+    commitRef: String
+    cachedCommitRef: String
+    pullRequest: Boolean
+    deployUrl: String
+    deployPrimeUrl: String
+    netlifyImagesCdnDomain: String
+    status: String
+    errorName: String
+    errorMessage: String
+    buildStartedAt: DateTime
+    buildEndedAt: DateTime
+    errorAt: DateTime
+    successAt: DateTime
     siteId: String
     userId: Int
   }

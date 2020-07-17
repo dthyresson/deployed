@@ -5,6 +5,8 @@ export const users = () => {
 }
 
 export const User = {
+  accessTokens: (_obj, { root }) =>
+    db.user.findOne({ where: { id: root.id } }).accessTokens(),
   sites: (_obj, { root }) =>
     db.user.findOne({ where: { id: root.id } }).sites(),
   deploys: (_obj, { root }) =>
