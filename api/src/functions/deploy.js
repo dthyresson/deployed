@@ -1,9 +1,11 @@
+import jwt from 'jsonwebtoken'
+
 import { db } from 'src/lib/db'
 
+import { persistDeployData } from '../services/deploys/deploys'
 import { getUserByAccessToken } from '../services/users/users'
+import { updateSiteName } from '../services/sites/sites'
 import { activeSiteTokenSecrets } from '../services/siteTokens/siteTokens'
-
-const jwt = require('jsonwebtoken')
 
 const verifyPayload = (payload, secret, claims = {}) => {
   // TODO verify audience based on permitted User->AccessToken.audience (to add)
@@ -15,6 +17,24 @@ const verifyPayload = (payload, secret, claims = {}) => {
   return jwt.verify(payload, secret, claims)
 }
 
+const getAccessToken = (event) => {
+  const [schema, token] = event.headers?.authorization?.split(' ')
+
+  if (!schema.length || schema !== 'Bearer' || !token.length) {
+    throw new Error('Not permitted')
+  }
+
+  return token
+}
+
+const requireUser = async (event) => {
+  const user = await getUserByAccessToken(getAccessToken(event))
+  if (!user) {
+    throw new Error('Not permitted')
+  }
+  return user
+}
+
 const verifySiteId = (payload, secret, siteId) => {
   const claims = {
     subject: siteId,
@@ -22,7 +42,7 @@ const verifySiteId = (payload, secret, siteId) => {
   return verifyPayload(payload, secret, claims).sub
 }
 
-const verifiedSiteId = (payload, siteTokenSecrets, siteId) => {
+const verifiedSiteData = (payload, siteTokenSecrets, siteId) => {
   for (var secret of siteTokenSecrets) {
     try {
       return [verifySiteId(payload, secret, siteId), secret]
@@ -33,68 +53,49 @@ const verifiedSiteId = (payload, siteTokenSecrets, siteId) => {
   return null
 }
 
+const verifiedSite = async (event) => {
+  const user = await requireUser(event)
+
+  const payload = JSON.parse(event.body).payload
+  const decoded = jwt.decode(payload)
+  const siteId = decoded.data.siteId
+
+  const siteTokenSecrets = await activeSiteTokenSecrets(siteId)
+
+  const [verifiedSiteId, secret] = verifiedSiteData(
+    payload,
+    siteTokenSecrets,
+    siteId
+  )
+
+  const data = jwt.verify(payload, secret).data
+
+  const site = await db.site.findOne({
+    where: {
+      id_userId: { id: verifiedSiteId, userId: user.id },
+    },
+  })
+
+  if (verifiedSiteId && siteId === verifiedSiteId) {
+    return [user, site, data]
+  } else {
+    throw new Error('Invalid Site')
+  }
+}
+
 export const handler = async (event, _context) => {
   try {
-    const [schema, token] = event.headers?.authorization?.split(' ')
+    const [user, site, data] = await verifiedSite(event)
 
-    if (!schema.length || !token.length) {
-      throw new Error('Not permitted')
-    }
+    updateSiteName(site.id, data.siteName)
 
-    const user = await getUserByAccessToken(token)
+    const deploy = await persistDeployData(user, site, data)
 
-    if (!user) {
-      throw new Error('Not permitted')
-    }
-
-    const body = JSON.parse(event.body)
-    const decoded = jwt.decode(body.payload)
-
-    const siteId = decoded.data.siteId
-
-    const siteTokenSecrets = await activeSiteTokenSecrets(siteId)
-
-    const [validSiteId, secret] = verifiedSiteId(
-      body.payload,
-      siteTokenSecrets,
-      siteId
-    )
-
-    if (validSiteId && siteId === validSiteId) {
-      const site = await db.site.findOne({
-        where: {
-          id_userId: { id: validSiteId, userId: user.id },
-        },
-      })
-
-      const data = jwt.verify(body.payload, secret).data
-      const siteName = data.siteName
-
-      delete data.siteName
-      delete data.siteId
-
-      const deploy = await db.deploy.upsert({
-        where: { id: data.id },
-        update: {
-          ...data,
-        },
-        create: {
-          ...data,
-          user: { connect: { id: user.id } },
-          site: { connect: { id: site.id } },
-        },
-      })
-
-      await db.site.update({ where: { id: site.id }, data: { name: siteName } })
-
-      return {
-        statusCode: 200,
-        body: JSON.stringify({
-          data: { deployId: deploy.id, siteId: site.id, siteName: site.name },
-        }),
-      }
-    } else {
-      throw new Error('Not permitted')
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        data: { deployId: deploy.id, siteId: site.id, siteName: site.name },
+      }),
     }
   } catch (error) {
     console.log(error)
