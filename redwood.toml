@@ -15,4 +15,4 @@
   port = 8911
   includeEnvironmentVariables = ['DATABASE_URL','BINARY_TARGET','HEROKU_API_TOKEN']
 [browser]
-  open = true
+  open = false

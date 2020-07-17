@@ -1,6 +1,6 @@
 datasource DS {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -51,7 +51,6 @@ model Site {
   siteTokens SiteToken[]
 
   @@index([name])
-  @@unique([id, userId])
 }
 
 model SiteToken {
@@ -59,13 +58,12 @@ model SiteToken {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   name      String
-  secret    String    @unique
+  secret    String
   revokedAt DateTime?
   site      Site      @relation(fields: [siteId], references: [id])
   siteId    String
 
-  @@unique([siteId, secret])
-  @@unique([id, siteId, secret])
+  @@index([secret])
 }
 
 model Deploy {
@@ -86,7 +84,6 @@ model Deploy {
   commitRef              String?
   cachedCommitRef        String?
   pullRequest            Boolean?
-  url                    String?
   deployUrl              String?
   deployPrimeUrl         String?
   netlifyImagesCdnDomain String?
@@ -99,7 +96,7 @@ model Deploy {
   successAt              DateTime?
   site                   Site      @relation(fields: [siteId], references: [id])
   siteId                 String
-  user                   User      @relation(fields: [userId], references: [id])
+  User                   User      @relation(fields: [userId], references: [id])
   userId                 Int
 
   @@index([status])

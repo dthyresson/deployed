@@ -17,6 +17,7 @@ const getUser = async (userId) => {
     },
   })
 }
+
 const getUserProfile = async (token) => {
   try {
     const auth0User = await auth0.getProfile(token)
@@ -39,7 +40,7 @@ const getUserProfile = async (token) => {
 const createAccessToken = async (userId) => {
   try {
     const tokenData = {
-      User: { connect: { id: userId } },
+      user: { connect: { id: userId } },
       name: 'Access Token',
       secret: nanoid(32),
     }

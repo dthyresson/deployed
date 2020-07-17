@@ -1,6 +1,6 @@
 datasource DS {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -86,7 +86,6 @@ model Deploy {
   commitRef              String?
   cachedCommitRef        String?
   pullRequest            Boolean?
-  url                    String?
   deployUrl              String?
   deployPrimeUrl         String?
   netlifyImagesCdnDomain String?

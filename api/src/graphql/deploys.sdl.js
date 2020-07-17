@@ -19,6 +19,7 @@ export const schema = gql`
     commitRef: String
     cachedCommitRef: String
     pullRequest: Boolean
+    url: String
     deployUrl: String
     deployPrimeUrl: String
     netlifyImagesCdnDomain: String
@@ -31,7 +32,7 @@ export const schema = gql`
     successAt: DateTime
     site: Site!
     siteId: String!
-    User: User!
+    user: User!
     userId: Int!
   }
 
@@ -55,6 +56,7 @@ export const schema = gql`
     commitRef: String
     cachedCommitRef: String
     pullRequest: Boolean
+    url: String
     deployUrl: String
     deployPrimeUrl: String
     netlifyImagesCdnDomain: String
@@ -85,6 +87,7 @@ export const schema = gql`
     commitRef: String
     cachedCommitRef: String
     pullRequest: Boolean
+    url: String
     deployUrl: String
     deployPrimeUrl: String
     netlifyImagesCdnDomain: String
