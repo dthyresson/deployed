@@ -20,14 +20,14 @@ model User {
   name          String
   nickname      String
   picture       String
-  userId        String        @unique
+  userIdentity  String        @unique
   accessTokens  AccessToken[]
   sites         Site[]
   deploys       Deploy[]
 }
 
 model AccessToken {
-  id        String    @id
+  id        Int       @id @default(autoincrement())
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   name      String
@@ -50,7 +50,7 @@ model Site {
 }
 
 model SiteToken {
-  id        String    @id
+  id        Int       @id @default(autoincrement())
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   name      String

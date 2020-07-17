@@ -13,7 +13,7 @@ export const schema = gql`
     name: String!
     nickname: String!
     picture: String!
-    userId: String!
+    userIdentity: String!
     accessTokens: [AccessToken]!
     sites: [Site]!
     deploys: [Deploy]!
@@ -33,7 +33,7 @@ export const schema = gql`
     name: String!
     nickname: String!
     picture: String!
-    userId: String!
+    userIdentity: String!
   }
 
   input UpdateUserInput {
@@ -46,6 +46,6 @@ export const schema = gql`
     name: String
     nickname: String
     picture: String
-    userId: String
+    userIdentity: String
   }
 `

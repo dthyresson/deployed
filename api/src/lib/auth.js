@@ -1,4 +1,5 @@
 import { AuthenticationClient } from 'auth0'
+import { nanoid } from 'nanoid'
 import { AuthenticationError } from '@redwoodjs/api'
 import { context } from '@redwoodjs/api/dist/globalContext'
 
@@ -10,9 +11,9 @@ const auth0 = new AuthenticationClient({
 })
 
 const getUser = async (userId) => {
-  await db.user.findOne({
+  return await db.user.findOne({
     where: {
-      userId: userId,
+      userIdentity: userId,
     },
   })
 }
@@ -35,11 +36,26 @@ const getUserProfile = async (token) => {
   }
 }
 
+const createAccessToken = async (userId) => {
+  try {
+    const tokenData = {
+      User: { connect: { id: userId } },
+      name: 'Access Token',
+      secret: nanoid(32),
+    }
+
+    const accessToken = await db.accessToken.create({ data: tokenData })
+    return accessToken
+  } catch (error) {
+    throw new Error('Could not create user access token')
+  }
+}
+
 const updateUserWithProfile = async (userProfile) => {
   try {
     const userWithProfile = await db.user.upsert({
       where: {
-        userId: userProfile.userId,
+        userIdentity: userProfile.userId,
       },
       update: {
         email: userProfile.email,
@@ -51,8 +67,19 @@ const updateUserWithProfile = async (userProfile) => {
         nickname: userProfile.nickname,
         picture: userProfile.picture,
       },
-      create: userProfile,
+      create: {
+        email: userProfile.email,
+        emailVerified: userProfile.emailVerified,
+        lastIp: userProfile.lastIp,
+        lastLogin: userProfile.lastLogin,
+        loginsCount: userProfile.loginsCount,
+        name: userProfile.name,
+        nickname: userProfile.nickname,
+        picture: userProfile.picture,
+        userIdentity: userProfile.userId,
+      },
     })
+
     return userWithProfile
   } catch (error) {
     throw new Error('Failed to update user and profile')
@@ -71,10 +98,12 @@ export const getCurrentUser = async (decoded, { type, token }) => {
   try {
     const user = await getUser(decoded.sub)
 
-    if (!user) {
+    if (!user || user === undefined) {
       const userProfile = await getUserProfile(token)
       if (userProfile) {
-        return await updateUserWithProfile(userProfile)
+        const newUser = await updateUserWithProfile(userProfile)
+        await createAccessToken(newUser.id)
+        return newUser
       }
     }
 

@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 
 export const schema = gql`
   type AccessToken {
-    id: String!
+    id: Int!
     createdAt: DateTime!
     updatedAt: DateTime!
     name: String!

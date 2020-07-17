@@ -1,0 +1,85 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "AccessToken",
+          "arguments": [
+            {
+              "name": "",
+              "value": "[secret]"
+            }
+          ]
+        },
+        "directive": "index"
+      }
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "Site",
+          "arguments": [
+            {
+              "name": "",
+              "value": "[name]"
+            }
+          ]
+        },
+        "directive": "index"
+      }
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "SiteToken",
+          "arguments": [
+            {
+              "name": "",
+              "value": "[secret]"
+            }
+          ]
+        },
+        "directive": "index"
+      }
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "Deploy",
+          "arguments": [
+            {
+              "name": "",
+              "value": "[status]"
+            }
+          ]
+        },
+        "directive": "index"
+      }
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "Deploy",
+          "arguments": [
+            {
+              "name": "",
+              "value": "[buildId]"
+            }
+          ]
+        },
+        "directive": "index"
+      }
+    }
+  ]
+}

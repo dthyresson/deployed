@@ -240,7 +240,7 @@
     {
       "tag": "CreateField",
       "model": "User",
-      "field": "userId",
+      "field": "userIdentity",
       "type": "String",
       "arity": "Required"
     },
@@ -250,7 +250,7 @@
         "path": {
           "tag": "Field",
           "model": "User",
-          "field": "userId"
+          "field": "userIdentity"
         },
         "directive": "unique"
       }
@@ -284,7 +284,7 @@
       "tag": "CreateField",
       "model": "AccessToken",
       "field": "id",
-      "type": "String",
+      "type": "Int",
       "arity": "Required"
     },
     {
@@ -297,6 +297,31 @@
         },
         "directive": "id"
       }
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "AccessToken",
+          "field": "id"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "AccessToken",
+          "field": "id"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "autoincrement()"
     },
     {
       "tag": "CreateField",
@@ -583,7 +608,7 @@
       "tag": "CreateField",
       "model": "SiteToken",
       "field": "id",
-      "type": "String",
+      "type": "Int",
       "arity": "Required"
     },
     {
@@ -596,6 +621,31 @@
         },
         "directive": "id"
       }
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "SiteToken",
+          "field": "id"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "SiteToken",
+          "field": "id"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "autoincrement()"
     },
     {
       "tag": "CreateField",
