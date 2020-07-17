@@ -60,8 +60,6 @@ export const handler = async (event, _context) => {
       siteId
     )
 
-    console.log(validSiteId)
-
     if (validSiteId && siteId === validSiteId) {
       const site = await db.site.findOne({
         where: {
@@ -69,11 +67,8 @@ export const handler = async (event, _context) => {
         },
       })
 
-      console.log(site.name)
-
       const data = jwt.verify(body.payload, secret).data
-
-      console.log(data)
+      delete data.siteId
 
       const deploy = await db.deploy.upsert({
         where: { id: data.id },
@@ -87,10 +82,11 @@ export const handler = async (event, _context) => {
         },
       })
 
-      console.log(deploy)
       return {
         statusCode: 200,
-        body: JSON.stringify({ data: 'hi' }),
+        body: JSON.stringify({
+          data: { deployId: deploy.id, siteId: site.id, siteName: site.name },
+        }),
       }
     } else {
       throw new Error('Not permitted')
@@ -99,6 +95,7 @@ export const handler = async (event, _context) => {
     console.log(error)
     return {
       statusCode: 401,
+      body: JSON.stringify({ error: error.message }),
     }
   }
 }
