@@ -1,5 +1,13 @@
 import { db } from 'src/lib/db'
 
+export const userByUserId = async (userId) => {
+  return await db.user.findOne({
+    where: {
+      userIdentity: userId,
+    },
+  })
+}
+
 export const users = () => {
   return db.user.findMany()
 }
