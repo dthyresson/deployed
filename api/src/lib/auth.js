@@ -1,7 +1,6 @@
 import { AuthenticationError } from '@redwoodjs/api'
 import { context } from '@redwoodjs/api/dist/globalContext'
 
-import { registerUser } from 'src/services/registrations/registrations'
 import { userByUserId } from 'src/services/users/users'
 
 const requireAccessToken = (decoded, { type, token }) => {
@@ -14,18 +13,14 @@ const requireAccessToken = (decoded, { type, token }) => {
 
 export const getCurrentUser = async (decoded, { type, token }) => {
   try {
-    let user = null
     const userId = decoded.sub
 
     requireAccessToken(decoded, { type, token })
 
-    if ((user = await userByUserId(userId))) {
-      return user
-    }
+    const user = await userByUserId(userId)
+    if (user) return user
 
-    user = registerUser(userId)
-
-    return user
+    return decoded
   } catch (error) {
     console.log(error)
     return null
