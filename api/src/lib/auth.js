@@ -1,34 +1,29 @@
 import { AuthenticationError } from '@redwoodjs/api'
 import { context } from '@redwoodjs/api/dist/globalContext'
 
-import {
-  getUserProfile,
-  updateUserWithProfile,
-} from 'src/services/userProfiles/userProfiles'
-import { createAccessToken } from 'src/services/accessTokens/accessTokens'
+import { registerUser } from 'src/services/registrations/registrations'
 import { userByUserId } from 'src/services/users/users'
 
-const isValidToken = (decoded, { type, token }) => {
-  return token || type === 'auth0' || decoded?.sub
+const requireAccessToken = (decoded, { type, token }) => {
+  if (token || type === 'auth0' || decoded?.sub) {
+    return
+  } else {
+    throw new Error('Invalid token')
+  }
 }
 
 export const getCurrentUser = async (decoded, { type, token }) => {
   try {
-    if (!isValidToken(decoded, { type, token })) {
-      throw new Error('Invalid token')
+    let user = null
+    const userId = decoded.sub
+
+    requireAccessToken(decoded, { type, token })
+
+    if ((user = await userByUserId(userId))) {
+      return user
     }
 
-    const user = await userByUserId(decoded.sub)
-
-    if (!user || user === undefined) {
-      const userProfile = await getUserProfile(token)
-
-      if (userProfile) {
-        const newUser = await updateUserWithProfile(userProfile)
-        await createAccessToken(newUser.id)
-        return newUser
-      }
-    }
+    user = registerUser(userId)
 
     return user
   } catch (error) {
