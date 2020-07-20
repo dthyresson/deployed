@@ -83,7 +83,7 @@ export const handler = async (event, _context) => {
     const deploy = await persistDeployData(user, site, data)
 
     return {
-      statusCode: 200,
+      statusCode: 201,
       body: JSON.stringify({
         data: { deployId: deploy.id, siteId: site.id, siteName: site.name },
       }),

@@ -33,11 +33,11 @@ package = 'netlify-plugin-prisma-provider'
 [[redirects]]
   from = "/register"
   to = "/.netlify/functions/register"
-  status = 200
+  status = 307
   force = true
 
 [[redirects]]
   from = "/signin"
   to = "/.netlify/functions/signin"
-  status = 200
+  status = 307
   force = true

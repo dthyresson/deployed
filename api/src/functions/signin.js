@@ -7,14 +7,21 @@ export const handler = async (event, _context) => {
   try {
     const userId = verifyPayload(event).sub
 
-    await backOff(() => signIn(userId))
-  } catch (error) {
-    console.log('signin backoff')
-    console.log(error)
-  }
+    try {
+      await backOff(() => signIn(userId))
+    } catch (error) {
+      console.log('signin backoff')
+      console.log(error)
+    }
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(`signIn`),
+    return {
+      statusCode: 201,
+      body: JSON.stringify(`signIn`),
+    }
+  } catch (error) {
+    return {
+      statusCode: 401,
+      body: JSON.stringify(`Unauthorized`),
+    }
   }
 }
