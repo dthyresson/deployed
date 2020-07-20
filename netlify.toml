@@ -6,11 +6,6 @@
 [dev]
   command = "yarn rw dev"
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
 [[plugins]]
 package = 'netlify-plugin-heroku-database-url'
   [plugins.inputs]
@@ -23,3 +18,26 @@ package = 'netlify-plugin-redwoodjs-env-validator'
 package = 'netlify-plugin-prisma-provider'
   [plugins.inputs]
   path = 'api/prisma/schema.prisma'
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/deploy"
+  to = "/.netlify/functions/deploy"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/register"
+  to = "/.netlify/functions/register"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/signin"
+  to = "/.netlify/functions/signin"
+  status = 200
+  force = true
