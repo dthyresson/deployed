@@ -1,4 +1,5 @@
 import { AuthenticationClient, ManagementClient } from 'auth0'
+import { nanoid } from 'nanoid'
 
 import { db } from 'src/lib/db'
 
@@ -13,6 +14,35 @@ const management = new ManagementClient({
   clientSecret: process.env.AUTH0_MANAGEMENT_CLIENT_SECRET,
   scope: 'read:users update:users',
 })
+
+export const createUser = async (data) => {
+  try {
+    return await db.user.create(data)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const upsertUser = async (data) => {
+  try {
+    return await db.user.upsert({
+      where: { userIdentity: data.userIdentity },
+      update: {},
+      create: { userIdentity: data.userIdentity, emailVerified: false },
+      include: { accessTokens: true },
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const userByUserId = async (userId) => {
+  return await db.user.findOne({
+    where: {
+      userIdentity: userId,
+    },
+  })
+}
 
 export const fetchUserProfileByUserId = async (userId) => {
   try {
@@ -52,7 +82,7 @@ export const fetchUserProfileByToken = async (token) => {
   }
 }
 
-export const UserWithProfile = async (userProfile) => {
+export const updateUserWithProfile = async (userProfile) => {
   try {
     const userWithProfile = await db.user.upsert({
       where: {
@@ -84,5 +114,35 @@ export const UserWithProfile = async (userProfile) => {
     return userWithProfile
   } catch (error) {
     throw new Error('Failed to update user and profile')
+  }
+}
+
+export const getUserByAccessToken = async (secret) => {
+  try {
+    const accessToken = await db.accessToken.findOne({
+      where: {
+        secret: secret,
+      },
+      include: { user: true },
+    })
+    return accessToken.user
+  } catch (error) {
+    console.log(error)
+    return null
+  }
+}
+
+export const createAccessToken = async (userId) => {
+  try {
+    const tokenData = {
+      user: { connect: { id: userId } },
+      name: 'Access Token',
+      secret: nanoid(32),
+    }
+
+    const accessToken = await db.accessToken.create({ data: tokenData })
+    return accessToken
+  } catch (error) {
+    throw new Error('Could not create user access token')
   }
 }

@@ -1,0 +1,40 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "UpdateField",
+      "model": "User",
+      "field": "email",
+      "arity": "Optional"
+    },
+    {
+      "tag": "DeleteDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "email"
+        },
+        "directive": "unique"
+      }
+    },
+    {
+      "tag": "UpdateField",
+      "model": "User",
+      "field": "name",
+      "arity": "Optional"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "User",
+      "field": "nickname",
+      "arity": "Optional"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "User",
+      "field": "picture",
+      "arity": "Optional"
+    }
+  ]
+}

@@ -1,13 +1,14 @@
 import jwt from 'jsonwebtoken'
 
 import { db } from 'src/lib/db'
+import { getAccessToken } from 'src/lib/auth'
 
 import { persistDeployData } from '../services/deploys/deploys'
 import { getUserByAccessToken } from '../services/users/users'
 import { updateSiteName } from '../services/sites/sites'
 import { activeSiteTokenSecrets } from '../services/siteTokens/siteTokens'
 
-const verifyPayload = (payload, secret, claims = {}) => {
+const verifyDeployPayload = (payload, secret, claims = {}) => {
   // TODO verify audience based on permitted User->AccessToken.audience (to add)
   claims = {
     ...claims,
@@ -15,16 +16,6 @@ const verifyPayload = (payload, secret, claims = {}) => {
     issuer: 'netlify-plugin-deployed',
   }
   return jwt.verify(payload, secret, claims)
-}
-
-const getAccessToken = (event) => {
-  const [schema, token] = event.headers?.authorization?.split(' ')
-
-  if (!schema.length || schema !== 'Bearer' || !token.length) {
-    throw new Error('Not permitted')
-  }
-
-  return token
 }
 
 const requireUser = async (event) => {
@@ -39,7 +30,7 @@ const verifySiteId = (payload, secret, siteId) => {
   const claims = {
     subject: siteId,
   }
-  return verifyPayload(payload, secret, claims).sub
+  return verifyDeployPayload(payload, secret, claims).sub
 }
 
 const verifiedSiteData = (payload, siteTokenSecrets, siteId) => {

@@ -13,10 +13,3 @@ export const Site = {
   activeSiteTokens: (_obj, { root }) =>
     db.site.findOne({ where: { id: root.id } }).siteTokens(),
 }
-
-export const updateSiteName = async (siteId, siteName) => {
-  return await db.site.update({
-    where: { id: siteId },
-    data: { name: siteName },
-  })
-}

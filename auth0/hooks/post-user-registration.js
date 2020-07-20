@@ -18,53 +18,52 @@
 @param {object} context.webtask - webtask context
 @param {function} cb - function (error, response)
 */
-const jwt = require('jsonwebtoken')
-const request = require('request')
+const jwt = require('jsonwebtoken');
+const request = require('request');
 
 module.exports = function (user, context, cb) {
+  console.log('>>> in post-user-registration-hook');
   try {
-    const payload = { user: user, connection: context.connection }
+    console.log(context);
+    const payload = { user: user, connection: context.connection };
     const claims = {
       subject: `${context.connection.name}|${user.id}`,
       audience: context.webtask.headers.referer || user.tenant,
       issuer: context.webtask.meta['hook-name'],
       expiresIn: '15m',
-    }
+    };
 
     const token = jwt.sign(
       {},
       context.webtask.secrets.DEPLOYED_WEBHOOK_SECRET,
       claims
-    )
+    );
 
     const registration = jwt.sign(
       payload,
       context.webtask.secrets.DEPLOYED_WEBHOOK_SECRET,
       claims
-    )
+    );
 
-    request.post(
-      {
-        url: context.webtask.secrets.DEPLOYED_REGISTER_ENDPOINT,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: { payload: registration },
-        json: true,
-      },
-      function optionalCallback(err, httpResponse, body) {
-        if (err) {
-          return console.error('upload failed:', err)
-        }
-        console.log('Upload successful!  Server responded with:', body)
-        // console.log(registration);
-        return true
+    request.post({ url: context.webtask.secrets.DEPLOYED_REGISTER_ENDPOINT,
+                   headers: {
+                     Authorization: `Bearer ${token}`,
+                   },
+                   body: { payload: registration },
+                   json: true},
+                 function optionalCallback(err, httpResponse, body) {
+      if (err) {
+        return console.error('upload failed:', err);
       }
-    )
-  } catch (error) {
-    console.log(error)
-    throw new Error(error.message)
+      console.log('Upload successful!  Server responded with:', body);
+      // console.log(registration);
+      return true;
+    });
+  }
+  catch(error) {
+    console.log(error);
+    throw new Error(error.message);
   }
 
-  cb()
-}
+  cb();
+};

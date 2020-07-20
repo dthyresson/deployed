@@ -5,14 +5,14 @@ export const schema = gql`
     id: Int!
     createdAt: DateTime!
     updatedAt: DateTime!
-    email: String!
+    email: String
     emailVerified: Boolean
     lastIp: String
     lastLogin: DateTime!
     loginsCount: Int!
-    name: String!
-    nickname: String!
-    picture: String!
+    name: String
+    nickname: String
+    picture: String
     userIdentity: String!
     accessTokens: [AccessToken]!
     sites: [Site]!
@@ -25,14 +25,14 @@ export const schema = gql`
 
   input CreateUserInput {
     updatedAt: DateTime!
-    email: String!
+    email: String
     emailVerified: Boolean
     lastIp: String
     lastLogin: DateTime!
     loginsCount: Int!
-    name: String!
-    nickname: String!
-    picture: String!
+    name: String
+    nickname: String
+    picture: String
     userIdentity: String!
   }
 

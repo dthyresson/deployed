@@ -1,18 +1,19 @@
 import {
-  fetchUserProfileByUserId,
-  UserWithProfile,
-} from 'src/services/userProfiles/userProfiles'
-import { createAccessToken } from 'src/services/accessTokens/accessTokens'
+  createAccessToken,
+  upsertUser,
+} from 'src/services/userManager/userManager'
 
 export const registerUser = async (userId) => {
   try {
-    let user,
-      userProfile = null
-    if ((userProfile = await fetchUserProfileByUserId(userId))) {
-      if ((user = await UserWithProfile(userProfile))) {
-        await createAccessToken(user.id)
-      }
+    const user = await upsertUser({
+      userIdentity: userId,
+      emailVerified: false,
+    })
+
+    if (user.accessTokens?.length === 0) {
+      await createAccessToken(user.id)
     }
+
     return user
   } catch (error) {
     throw new Error('Failed to register user')
