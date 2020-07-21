@@ -20,3 +20,20 @@ export const updateSiteName = async (siteId, siteName) => {
     data: { name: siteName },
   })
 }
+
+export const persistDeployData = async (user, site, data) => {
+  delete data.siteName
+  delete data.siteId
+
+  return await db.deploy.upsert({
+    where: { id: data.id },
+    update: {
+      ...data,
+    },
+    create: {
+      ...data,
+      user: { connect: { id: user.id } },
+      site: { connect: { id: site.id } },
+    },
+  })
+}

@@ -3,10 +3,12 @@ import jwt from 'jsonwebtoken'
 import { db } from 'src/lib/db'
 import { getAccessToken } from 'src/lib/auth'
 
-import { persistDeployData } from '../services/deploys/deploys'
-import { getUserByAccessToken } from '../services/users/users'
-import { updateSiteName } from '../services/sites/sites'
-import { activeSiteTokenSecrets } from '../services/siteTokens/siteTokens'
+import { getUserByAccessToken } from '../services/userManager/userManager'
+import {
+  activeSiteTokenSecrets,
+  persistDeployData,
+  updateSiteName,
+} from '../services/siteManager/siteManager'
 
 const verifyDeployPayload = (payload, secret, claims = {}) => {
   // TODO verify audience based on permitted User->AccessToken.audience (to add)

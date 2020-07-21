@@ -37,7 +37,7 @@ export const requireAuth = () => {
   }
 }
 
-const getAccessToken = (event) => {
+export const getAccessToken = (event) => {
   const [schema, token] = event.headers?.authorization?.split(' ')
 
   if (!schema.length || schema !== 'Bearer' || !token.length) {
