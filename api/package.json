@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "@redwoodjs/api": "^0.13.0",
+    "@redwoodjs/api": "^0.14.0",
     "auth0": "^2.27.0",
     "exponential-backoff": "^3.0.1",
     "jsonwebtoken": "^8.5.1",
